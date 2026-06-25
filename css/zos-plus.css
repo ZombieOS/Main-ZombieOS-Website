@@ -36,6 +36,15 @@ color:#cfcfcf;
 line-height:1.8;
 }
 
+.basicbadge {
+    background-color: #00ff99;
+    border-radius: 5px;
+}
+
+.fullbadge {
+
+}
+
 /* PRICING */
 
 .pricing-section{
