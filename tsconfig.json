@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    "rootDir": "ts",
+    "outDir": "js",
+
+    "strict": true,
+
+    "sourceMap": true,
+
+    "removeComments": false,
+
+    "skipLibCheck": true,
+
+    "allowJs": true,
+
+    "isolatedModules": true
+  },
+
+  "include": [
+    "ts/**/*"
+  ]
+}

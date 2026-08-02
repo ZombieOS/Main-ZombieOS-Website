@@ -85,7 +85,12 @@
 <span>Google</span>
 </button>
 
-<button class="social-button disabled-button"disabled>
+<button id="github-login" class="social-button" type="button">
+<img src="/images/icons/github.png" alt="GitHub">
+<span>GitHub</span>
+</button>
+
+<button class="social-button disabled-button" disabled>
 <img src="/images/icons/discord.png" alt="Discord"
 <span>Discord</span>
 </button>
@@ -95,7 +100,7 @@
 <span>Apple</span>
 </button>
 
-<button id="microsoft-auth" class="social-button">
+<button id="microsoft-auth" class="social-button" disabled>
 <img src="/images/icons/microsoft.png" alt="Microsoft">
 <span>Microsoft</span>
 </button>
@@ -137,9 +142,8 @@
     
 </div>
 
-<script type="module" src="/js/login.js"></script>
-
-<script type="module" src="/js/global.js"></script>
+<script type="module" src="/ts/login.ts"></script>
+<script type="module" src="/ts/global.ts"></script>
 
 </body>
 </html>
