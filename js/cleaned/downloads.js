@@ -2,7 +2,7 @@ import { auth, db } from "/js/cleaned/firebase.js";
 
 import {
     onAuthStateChanged
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
     showPopup,

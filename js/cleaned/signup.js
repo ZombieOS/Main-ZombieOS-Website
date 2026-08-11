@@ -1,11 +1,11 @@
-import { auth } from "./firebase.js";
-import { createUserDocument } from "./users.js";
+import { auth } from "/js/cleaned/firebase.js";
+import { createUserDocument } from "/js/cleaned/users.js";
 
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     updateProfile
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
     showPopup
@@ -15,7 +15,7 @@ import {
     signUpWithGoogle,
     signUpWithGitHub,
     signUpWithMicrosoft
-} from "./providers.js";
+} from "/js/cleaned/providers.js";
 
 /* =========================================
    STATE

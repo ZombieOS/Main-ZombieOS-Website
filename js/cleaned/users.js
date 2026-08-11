@@ -1,4 +1,4 @@
-import { db } from "./firebase.js";
+import { db } from "/js/cleaned/firebase.js";
 
 import {
     doc,
@@ -7,7 +7,7 @@ import {
     updateDoc,
     deleteDoc,
     runTransaction
-} from "firebase/firestore";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 /* =========================================
    USER ID

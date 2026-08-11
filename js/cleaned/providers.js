@@ -1,8 +1,8 @@
-import { auth } from "./firebase.js";
+import { auth } from "/js/cleaned/firebase.js";
 
 import {
     createUserDocument
-} from "./users.js";
+} from "/js/cleaned/users.js";
 
 import {
 
@@ -14,7 +14,7 @@ import {
 
     signInWithPopup
 
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 /* =========================================
    SHARED AUTH

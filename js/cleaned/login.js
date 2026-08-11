@@ -3,7 +3,7 @@ import { auth } from "./firebase.js";
 import {
     onAuthStateChanged,
     signInWithEmailAndPassword
-} from "firebase/auth";
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
     showPopup
@@ -13,7 +13,7 @@ import {
     signInWithGoogle,
     signInWithGitHub,
     signInWithMicrosoft
-} from "./providers.js";
+} from "/js/cleaned/providers.js";
 
 /* =========================================
    HELPERS
