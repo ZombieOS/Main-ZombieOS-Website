@@ -1,14 +1,30 @@
 import { auth, db } from "./firebase.js";
 
 import {
+    getAuth,
     onAuthStateChanged,
-    signOut
-} from "firebase/auth";
+    signOut,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+    GoogleAuthProvider,
+    GithubAuthProvider,
+    OAuthProvider,
+    signInWithPopup
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
+    getFirestore,
     doc,
-    getDoc
-} from "firebase/firestore";
+    getDoc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    runTransaction
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 /* -----------------------------
    Footer

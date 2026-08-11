@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 import {
 getAuth,
@@ -609,7 +609,7 @@ sendButton.onclick = sendMessage;
 
 /* STAFF COMMANDS */
 
-if(isStaff){
+if(isStaff) {
 
 claimButton.onclick = async function(){
 
@@ -707,7 +707,7 @@ messages:messages
 
 };
 
-$("priority-10").onclick = async function(){
+$("priority-10").onclick = async function() {
 
     const priority = prompt(
         "Enter priority (1-10):"
@@ -752,3 +752,5 @@ $("priority-10").onclick = async function(){
     },{merge:true});
 
 };
+}
+})

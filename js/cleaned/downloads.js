@@ -10,9 +10,14 @@ import {
 } from "/js/cleaned/popup.js";
 
 import {
+    getFirestore,
     doc,
-    getDoc
-} from "firebase/firestore";
+    getDoc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    runTransaction
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 /* =========================================
    RELEASES

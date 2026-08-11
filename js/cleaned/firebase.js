@@ -1,18 +1,10 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
-import {
-    getAuth
-} from "firebase/auth";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
-import {
-    getFirestore
-} from "firebase/firestore";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-/* =========================================
-   FIREBASE
-========================================= */
-
-const firebaseConfig = Object.freeze({
+const firebaseConfig = {
 
     apiKey:
     "AIzaSyDG0hSabeqYdGgSISOgvSnkOwATXDLiV9g",
@@ -32,17 +24,10 @@ const firebaseConfig = Object.freeze({
     appId:
     "1:577624378484:web:3e88e693724bde8e89d521"
 
-});
+};
 
-/* =========================================
-   APP
-========================================= */
+export const app = initializeApp(firebaseConfig);
 
-export const app =
-initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
-export const auth =
-getAuth(app);
-
-export const db =
-getFirestore(app);
+export const db = getFirestore(app);
