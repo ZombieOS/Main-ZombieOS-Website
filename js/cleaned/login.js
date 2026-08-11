@@ -6,6 +6,10 @@ import {
 } from "firebase/auth";
 
 import {
+    showPopup
+} from "/js/cleaned/popup.js";
+
+import {
     signInWithGoogle,
     signInWithGitHub,
     signInWithMicrosoft
@@ -42,23 +46,15 @@ function popup(
 
 ){
 
-    if(window.showPopup){
+    showPopup(
 
-        window.showPopup(
-            title,
-            message,
-            callback
-        );
+        title,
 
-        return;
+        message,
 
-    }
+        callback
 
-    alert(
-        `${title}\n\n${message}`
     );
-
-    callback?.();
 
 }
 
@@ -217,7 +213,10 @@ if(loginForm instanceof HTMLFormElement){
 
                 }
 
-                console.error(error);
+                console.error(
+                    "Login failed:",
+                    error
+                );
 
                 popup(
 
@@ -263,13 +262,59 @@ async function providerLogin(
         loginInProgress =
         false;
 
-        console.error(error);
+        console.error(
+            `${providerName} login failed:`,
+            error
+        );
+
+        let message =
+        `Unable to sign in with ${providerName}.`;
+
+        if(
+            error?.code ===
+            "auth/account-exists-with-different-credential"
+        ){
+
+            message =
+            `A ZombieOS account already exists with this email. Sign in using your existing login method, then link ${providerName} from your account settings.`;
+
+        }
+
+        else if(
+            error?.code ===
+            "auth/popup-blocked"
+        ){
+
+            message =
+            "Your browser blocked the sign-in popup. Allow popups and try again.";
+
+        }
+
+        else if(
+            error?.code ===
+            "auth/popup-closed-by-user"
+        ){
+
+            message =
+            "The sign-in window was closed before login finished.";
+
+        }
+
+        else if(
+            error?.code ===
+            "auth/network-request-failed"
+        ){
+
+            message =
+            "A network error occurred. Check your connection and try again.";
+
+        }
 
         popup(
 
             `${providerName} Login`,
 
-            `Unable to sign in with ${providerName}.`
+            message
 
         );
 
@@ -362,9 +407,7 @@ document
 /*
 
 import {
-
     signInWithDiscord
-
 } from "./providers.js";
 
 document
@@ -398,9 +441,7 @@ document
 /*
 
 import {
-
     signInWithApple
-
 } from "./providers.js";
 
 document

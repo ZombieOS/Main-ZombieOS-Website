@@ -8,7 +8,11 @@ import {
     getFirestore
 } from "firebase/firestore";
 
-const firebaseConfig = {
+/* =========================================
+   FIREBASE
+========================================= */
+
+const firebaseConfig = Object.freeze({
 
     apiKey:
     "AIzaSyDG0hSabeqYdGgSISOgvSnkOwATXDLiV9g",
@@ -28,7 +32,11 @@ const firebaseConfig = {
     appId:
     "1:577624378484:web:3e88e693724bde8e89d521"
 
-};
+});
+
+/* =========================================
+   APP
+========================================= */
 
 export const app =
 initializeApp(firebaseConfig);

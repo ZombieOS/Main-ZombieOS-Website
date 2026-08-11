@@ -1,6 +1,8 @@
-import { auth } from "./firebase";
+import { auth } from "./firebase.js";
 
-import { createUserDocument } from "./users";
+import {
+    createUserDocument
+} from "./users.js";
 
 import {
 
@@ -10,9 +12,7 @@ import {
 
     OAuthProvider,
 
-    signInWithPopup,
-
-    User
+    signInWithPopup
 
 } from "firebase/auth";
 
@@ -22,41 +22,53 @@ import {
 
 async function authenticate(
 
-    provider:
-        GoogleAuthProvider |
-        GithubAuthProvider |
-        OAuthProvider,
+    provider,
 
-    createAccount:boolean = false
+    createAccount = false
 
-):Promise<User>{
+){
 
-    const result =
-    await signInWithPopup(
-        auth,
-        provider
-    );
+    try{
 
-    const user =
-    result.user;
-
-    if(createAccount){
-
-        await createUserDocument(
-
-            user.uid,
-
-            user.displayName ??
-            user.email?.split("@")[0] ??
-            "ZombieOS User",
-
-            user.email ?? ""
-
+        const result =
+        await signInWithPopup(
+            auth,
+            provider
         );
+
+        const user =
+        result.user;
+
+        if(createAccount){
+
+            await createUserDocument(
+
+                user.uid,
+
+                user.displayName ??
+                user.email?.split("@")[0] ??
+                "ZombieOS User",
+
+                user.email ?? ""
+
+            );
+
+        }
+
+        return user;
 
     }
 
-    return user;
+    catch(error){
+
+        console.error(
+            "Provider authentication failed:",
+            error
+        );
+
+        throw error;
+
+    }
 
 }
 
@@ -64,7 +76,7 @@ async function authenticate(
    GOOGLE
 ========================================= */
 
-export async function signInWithGoogle():Promise<User>{
+export async function signInWithGoogle(){
 
     const provider =
     new GoogleAuthProvider();
@@ -77,13 +89,12 @@ export async function signInWithGoogle():Promise<User>{
     });
 
     return authenticate(
-        provider,
-        false
+        provider
     );
 
 }
 
-export async function signUpWithGoogle():Promise<User>{
+export async function signUpWithGoogle(){
 
     const provider =
     new GoogleAuthProvider();
@@ -106,7 +117,7 @@ export async function signUpWithGoogle():Promise<User>{
    GITHUB
 ========================================= */
 
-export async function signInWithGitHub():Promise<User>{
+export async function signInWithGitHub(){
 
     const provider =
     new GithubAuthProvider();
@@ -120,13 +131,12 @@ export async function signInWithGitHub():Promise<User>{
     );
 
     return authenticate(
-        provider,
-        false
+        provider
     );
 
 }
 
-export async function signUpWithGitHub():Promise<User>{
+export async function signUpWithGitHub(){
 
     const provider =
     new GithubAuthProvider();
@@ -150,7 +160,7 @@ export async function signUpWithGitHub():Promise<User>{
    MICROSOFT
 ========================================= */
 
-export async function signInWithMicrosoft():Promise<User>{
+export async function signInWithMicrosoft(){
 
     const provider =
     new OAuthProvider(
@@ -165,13 +175,12 @@ export async function signInWithMicrosoft():Promise<User>{
     });
 
     return authenticate(
-        provider,
-        false
+        provider
     );
 
 }
 
-export async function signUpWithMicrosoft():Promise<User>{
+export async function signUpWithMicrosoft(){
 
     const provider =
     new OAuthProvider(
@@ -199,17 +208,15 @@ export async function signUpWithMicrosoft():Promise<User>{
 
 /*
 
-import {
-
-OAuthProvider
-
-} from "firebase/auth";
-
 export async function signInWithDiscord(){
 
     const provider =
     new OAuthProvider(
         "discord.com"
+    );
+
+    return authenticate(
+        provider
     );
 
 }
@@ -219,6 +226,11 @@ export async function signUpWithDiscord(){
     const provider =
     new OAuthProvider(
         "discord.com"
+    );
+
+    return authenticate(
+        provider,
+        true
     );
 
 }
@@ -232,17 +244,15 @@ export async function signUpWithDiscord(){
 
 /*
 
-import {
-
-OAuthProvider
-
-} from "firebase/auth";
-
 export async function signInWithApple(){
 
     const provider =
     new OAuthProvider(
         "apple.com"
+    );
+
+    return authenticate(
+        provider
     );
 
 }
@@ -252,6 +262,11 @@ export async function signUpWithApple(){
     const provider =
     new OAuthProvider(
         "apple.com"
+    );
+
+    return authenticate(
+        provider,
+        true
     );
 
 }

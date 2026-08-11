@@ -10,10 +10,13 @@
 
 <link rel="icon" type="image/png" href="/images/favicon.png">
 
-<link rel="stylesheet" href="css/global.css">
-<link rel="stylesheet" href="css/downloads.css">
+<link rel="stylesheet" href="/css/global.css">
+<link rel="stylesheet" href="/css/downloads.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
 </head>
 
@@ -27,17 +30,32 @@
 
 <div class="navbar-top">
 
-<a href="/" class="logo">ZombieOS</a>
+<a href="/" class="logo">
+ZombieOS
+</a>
 
 <div class="navbar-account">
-    <a id="navbar-login-button" href="/login" class="nav-button">Login</a>
+
+<a
+id="navbar-login-button"
+href="/login"
+class="nav-button"
+>
+Login
+</a>
+
 </div>
 
-<button id="navbar-toggle">☰ Menu</button>
+<button id="navbar-toggle">
+☰ Menu
+</button>
 
 </div>
 
-<nav class="nav-links" id="nav-links">
+<nav
+class="nav-links"
+id="nav-links"
+>
 
 <a href="/">Home</a>
 <a href="/zsharp">Z#</a>
@@ -57,77 +75,246 @@
 
 <section class="hero">
 
-<p class="section-eyebrow">INITIALIZING DOWNLOAD SYSTEM</p>
+<p class="section-eyebrow">
+DOWNLOAD CENTER
+</p>
 
-<h1 class="hero-title">ZombieOS Downloads</h1>
+<h1 class="hero-title">
+ZombieOS Downloads
+</h1>
 
-<p class="hero-description">Download the latest ZombieOS runtime prototype and future operating ecosystem.</p>
+<p class="hero-description">
 
-<div class="detected-card floating-card">
+Download the latest version of ZombieOS or choose a specific release channel.
 
-<h2>Detected Platform</h2>
-
-<p id="platform-text">Detecting your operating system...</p>
-
-<div id="download-container">
-
-<a id="auto-download-button" class="download-button" href="downloads/zombieos-installer.exe">
-
-<i class="fa-solid fa-download"></i>
-
-<span>Download Latest Prototype</span>
-
-</a>
-
-</div>
-
-</div>
+</p>
 
 </section>
 
 <section class="downloads-grid">
 
+<!-- ===========================
+     STABLE
+=========================== -->
+
 <div class="download-card floating-card">
 
+<div class="card-tag recommended">
+
+RECOMMENDED
+
+</div>
+
 <h2>
-<i class="fa-brands fa-windows"></i>
-Windows
+
+<i class="fa-solid fa-shield"></i>
+
+Latest Stable
+
 </h2>
 
-<p>Supported Platform</p>
+<p
+id="stable-version"
+class="version-text"
+>
 
-<a href="downloads/zombieos-installer.exe" class="download-button">
+Loading...
+
+</p>
+
+<p>
+
+Recommended for most users.
+
+</p>
+
+<a
+
+id="stable-download"
+
+class="download-button"
+
+href="#"
+
+>
 
 <i class="fa-solid fa-download"></i>
 
-<span>Download</span>
+<span>
+
+Download Stable
+
+</span>
 
 </a>
 
+<button
+
+id="stable-changelog"
+
+class="secondary-button"
+
+>
+
+See Changes
+
+</button>
+
 </div>
+
+<!-- ===========================
+     RELEASE
+=========================== -->
 
 <div class="download-card floating-card">
 
 <h2>
-<i class="fa-brands fa-apple"></i>macOS
+
+<i class="fa-solid fa-box-open"></i>
+
+Latest Release
+
 </h2>
 
-<p>Support coming soon.</p>
+<p
+id="release-version"
+class="version-text"
+>
 
-<button class="comingsoon-button">Coming Soon</button>
+Loading...
+
+</p>
+
+<p>
+
+Newest public ZombieOS release.
+
+</p>
+
+<a
+
+id="release-download"
+
+class="download-button"
+
+href="#"
+
+>
+
+<i class="fa-solid fa-download"></i>
+
+<span>
+
+Download Release
+
+</span>
+
+</a>
+
+<button
+
+id="release-changelog"
+
+class="secondary-button"
+
+>
+
+See Changes
+
+</button>
 
 </div>
+
+<!-- ===========================
+     DEVELOPMENT
+=========================== -->
 
 <div class="download-card floating-card">
 
-<h2>
-<i class="fa-brands fa-linux"></i>Linux</h2>
+<div class="card-tag development">
 
-<p>Support coming soon.</p>
-
-<button class="comingsoon-button">Coming Soon</button>
+DEV PROGRAM
 
 </div>
+
+<h2>
+
+<i class="fa-solid fa-code"></i>
+
+Development Build
+
+</h2>
+
+<p
+id="development-version"
+class="version-text"
+>
+
+Loading...
+
+</p>
+
+<p>
+
+Early development builds for ZombieOS Developers.
+
+</p>
+
+<a
+
+id="development-download"
+
+class="download-button"
+
+href="#"
+
+>
+
+<i class="fa-solid fa-download"></i>
+
+<span>
+
+Download Development Build
+
+</span>
+
+</a>
+
+<button
+
+id="development-changelog"
+
+class="secondary-button"
+
+>
+
+See Changes
+
+</button>
+
+</div>
+
+</section>
+
+<section class="previous-section">
+
+<a
+
+href="/versions"
+
+class="previous-button"
+
+>
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+<span>
+
+Previous Versions
+
+</span>
+
+</a>
 
 </section>
 
@@ -135,35 +322,136 @@ Windows
 
 <footer class="footer">
 
-<h2>ZombieOS</h2>
+<h2>
+
+ZombieOS
+
+</h2>
 
 <div class="footer-links">
+
 <a href="/">Home</a>
+
 <a href="/downloads">Downloads</a>
+
 <a href="/versions">Versions</a>
+
 <a href="/status">Status</a>
+
 </div>
 
-<p>ZombieOS / ZOS © <span id="year"></span></p>
+<p>
+
+ZombieOS / ZOS ©
+
+<span id="year"></span>
+
+</p>
 
 </footer>
 
-<div id="popup-overlay" class="popup-overlay">
+<div
+id="popup-overlay"
+class="popup-overlay"
+>
 
-    <div class="popup-box">
-        <h2 id="popup-title">Popup Title</h2>
-        <p id="popup-message">Popup Message</p>
+<div class="popup-box">
 
-        <div class="popup-buttons">
-            <button id="popup-confirm" class="popup-confirm">OK</button>
-            <button id="popup-cancel" class="popup-cancel">Cancel</button>
-        </div>
-    </div>
-    
+<h2 id="popup-title">
+
+Popup Title
+
+</h2>
+
+<p id="popup-message">
+
+Popup Message
+
+</p>
+
+<div class="popup-buttons">
+
+<button
+id="popup-confirm"
+class="popup-confirm"
+>
+
+OK
+
+</button>
+
+<button
+id="popup-cancel"
+class="popup-cancel"
+>
+
+Cancel
+
+</button>
+
 </div>
 
-<script type="module" src="/js/global.js"></script>
-<script src="js/downloads.js"></script>
+</div>
+
+</div>
+
+<dialog
+id="changelog-dialog"
+class="changelog-dialog"
+>
+
+<div class="changelog-header">
+
+<div>
+
+<p class="changelog-eyebrow">
+VERSION LOG
+</p>
+
+<h2 id="changelog-version">
+ZombieOS
+</h2>
+
+</div>
+
+<div class="changelog-header-right">
+
+<span
+id="changelog-channel"
+class="changelog-channel"
+></span>
+
+<button
+id="changelog-close"
+class="changelog-close"
+type="button"
+aria-label="Close changelog"
+>
+<i class="fa-solid fa-xmark"></i>
+</button>
+
+</div>
+
+</div>
+
+<div
+id="changelog-content"
+class="changelog-content"
+></div>
+
+</dialog>
+
+<script
+type="module"
+src="/js/cleaned/global.js"
+></script>
+
+
+
+<script
+type="module"
+src="/js/cleaned/downloads.js"
+></script>
 
 </body>
 </html>

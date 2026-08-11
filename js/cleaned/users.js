@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db } from "./firebase.js";
 
 import {
     doc,
@@ -6,85 +6,14 @@ import {
     setDoc,
     updateDoc,
     deleteDoc,
-    runTransaction,
-    DocumentReference
+    runTransaction
 } from "firebase/firestore";
-
-/* =========================================
-   TYPES
-========================================= */
-
-export interface UserSocials{
-
-    youtube:string;
-
-    github:string;
-
-    discord:string;
-
-    instagram:string;
-
-    facebook:string;
-
-    twitter:string;
-
-}
-
-export interface UserSettings{
-
-    publicProfile:boolean;
-
-    displayBadges:boolean;
-
-    zosPlusProfile:boolean;
-
-}
-
-export interface UserDocument{
-
-    userId:number;
-
-    username:string;
-
-    email:string;
-
-    handle:string;
-
-    customHandle:boolean;
-
-    subscription:string;
-
-    badges:string[];
-
-    createdAt:number;
-
-    bio:string;
-
-    pronouns:string;
-
-    profileColor:string;
-
-    lastHandleChange:number;
-
-    socials:UserSocials;
-
-    publicProfile:boolean;
-
-    displayBadges:boolean;
-
-    zosPlusProfile:boolean;
-
-    visibleBadges:Record<string,boolean>;
-
-    accountType: "USER";
-
-}
 
 /* =========================================
    USER ID
 ========================================= */
 
-export async function getNextUserId():Promise<number>{
+export async function getNextUserId(){
 
     const counterRef =
     doc(
@@ -95,7 +24,9 @@ export async function getNextUserId():Promise<number>{
 
     const nextId =
     await runTransaction(
+
         db,
+
         async(transaction)=>{
 
             const counter =
@@ -117,18 +48,24 @@ export async function getNextUserId():Promise<number>{
             current + 1;
 
             transaction.set(
+
                 counterRef,
+
                 {
-                    currentUserId:next
+                    currentUserId:
+                    next
                 },
+
                 {
                     merge:true
                 }
+
             );
 
             return next;
 
         }
+
     );
 
     return nextId;
@@ -141,17 +78,17 @@ export async function getNextUserId():Promise<number>{
 
 export async function createUserDocument(
 
-    uid:string,
+    uid,
 
-    username:string,
+    username,
 
-    email:string,
+    email,
 
-    handle?:string,
+    handle,
 
-    accountType:"USER" = "USER"
+    accountType = "USER"
 
-):Promise<UserDocument>{
+){
 
     const userRef =
     doc(
@@ -167,20 +104,23 @@ export async function createUserDocument(
 
     if(existing.exists()){
 
-        return existing.data() as UserDocument;
+        return existing.data();
 
     }
 
     const nextUserId =
     await getNextUserId();
 
-    const user:UserDocument={
+    const user = {
 
-        userId:nextUserId,
+        userId:
+        nextUserId,
 
-        username:username,
+        username:
+        username,
 
-        email:email,
+        email:
+        email,
 
         handle:
         handle ??
@@ -189,7 +129,8 @@ export async function createUserDocument(
         customHandle:
         handle != null,
 
-        subscription:"FREE",
+        subscription:
+        "FREE",
 
         badges:[
             "PROTOTYPE"
@@ -198,13 +139,17 @@ export async function createUserDocument(
         createdAt:
         Date.now(),
 
-        bio:"",
+        bio:
+        "",
 
-        pronouns:"",
+        pronouns:
+        "",
 
-        profileColor:"default",
+        profileColor:
+        "default",
 
-        lastHandleChange:0,
+        lastHandleChange:
+        0,
 
         socials:{
 
@@ -217,17 +162,25 @@ export async function createUserDocument(
 
         },
 
-        publicProfile:true,
+        publicProfile:
+        true,
 
-        displayBadges:true,
+        displayBadges:
+        true,
 
-        zosPlusProfile:false,
+        zosPlusProfile:
+        false,
 
-        visibleBadges: {
-            PROTOTYPE:true
+        visibleBadges:{
+
+            PROTOTYPE:
+            true
+
         },
-        
-        accountType:accountType
+
+        accountType:
+        accountType
+
     };
 
     await setDoc(
@@ -245,17 +198,19 @@ export async function createUserDocument(
 
 export async function getUser(
 
-    uid:string
+    uid
 
-):Promise<UserDocument | null>{
+){
 
     const snap =
     await getDoc(
+
         doc(
             db,
             "users",
             uid
         )
+
     );
 
     if(!snap.exists()){
@@ -264,7 +219,7 @@ export async function getUser(
 
     }
 
-    return snap.data() as UserDocument;
+    return snap.data();
 
 }
 
@@ -274,11 +229,11 @@ export async function getUser(
 
 export async function updateUser(
 
-    uid:string,
+    uid,
 
-    updates:Partial<UserDocument>
+    updates
 
-):Promise<void>{
+){
 
     await updateDoc(
 
@@ -300,9 +255,9 @@ export async function updateUser(
 
 export async function deleteUser(
 
-    uid:string
+    uid
 
-):Promise<void>{
+){
 
     await deleteDoc(
 
@@ -322,11 +277,11 @@ export async function deleteUser(
 
 export async function changeHandle(
 
-    uid:string,
+    uid,
 
-    handle:string
+    handle
 
-):Promise<void>{
+){
 
     await updateUser(
 
@@ -334,9 +289,11 @@ export async function changeHandle(
 
         {
 
+            handle:
             handle,
 
-            customHandle:true,
+            customHandle:
+            true,
 
             lastHandleChange:
             Date.now()
@@ -353,11 +310,11 @@ export async function changeHandle(
 
 export async function changeUsername(
 
-    uid:string,
+    uid,
 
-    username:string
+    username
 
-):Promise<void>{
+){
 
     await updateUser(
 
@@ -365,6 +322,7 @@ export async function changeUsername(
 
         {
 
+            username:
             username
 
         }
@@ -379,11 +337,11 @@ export async function changeUsername(
 
 export async function changeBio(
 
-    uid:string,
+    uid,
 
-    bio:string
+    bio
 
-):Promise<void>{
+){
 
     await updateUser(
 
@@ -391,6 +349,7 @@ export async function changeBio(
 
         {
 
+            bio:
             bio
 
         }
@@ -405,11 +364,11 @@ export async function changeBio(
 
 export async function setProfileColor(
 
-    uid:string,
+    uid,
 
-    color:string
+    color
 
-):Promise<void>{
+){
 
     await updateUser(
 
@@ -417,7 +376,8 @@ export async function setProfileColor(
 
         {
 
-            profileColor:color
+            profileColor:
+            color
 
         }
 

@@ -1,5 +1,5 @@
-import { auth } from "./firebase";
-import { createUserDocument } from "./users";
+import { auth } from "./firebase.js";
+import { createUserDocument } from "./users.js";
 
 import {
     createUserWithEmailAndPassword,
@@ -7,13 +7,15 @@ import {
     updateProfile
 } from "firebase/auth";
 
-import { FirebaseError } from "firebase/app";
+import {
+    showPopup
+} from "/js/cleaned/popup.js";
 
 import {
     signUpWithGoogle,
     signUpWithGitHub,
     signUpWithMicrosoft
-} from "./providers";
+} from "./providers.js";
 
 /* =========================================
    STATE
@@ -24,19 +26,23 @@ Prevents the "already logged in" popup from appearing
 immediately after this page successfully creates an account.
 */
 
-let signupInProgress = false;
+let signupInProgress =
+false;
 
 /* =========================================
    ELEMENT HELPERS
 ========================================= */
 
-function getInput(id: string): HTMLInputElement | null {
+function getInput(id){
 
-    const element = document.getElementById(id);
+    const element =
+    document.getElementById(id);
 
-    if (!(element instanceof HTMLInputElement)) {
+    if(!(element instanceof HTMLInputElement)){
 
-        console.error(`Input element not found: #${id}`);
+        console.error(
+            `Input element not found: #${id}`
+        );
 
         return null;
 
@@ -46,11 +52,12 @@ function getInput(id: string): HTMLInputElement | null {
 
 }
 
-function getButton(id: string): HTMLButtonElement | null {
+function getButton(id){
 
-    const element = document.getElementById(id);
+    const element =
+    document.getElementById(id);
 
-    if (!(element instanceof HTMLButtonElement)) {
+    if(!(element instanceof HTMLButtonElement)){
 
         return null;
 
@@ -65,26 +72,24 @@ function getButton(id: string): HTMLButtonElement | null {
 ========================================= */
 
 function showMessage(
-    title: string,
-    message: string,
-    onConfirm?: () => void
-): void {
 
-    if (window.showPopup) {
+    title,
 
-        window.showPopup(
-            title,
-            message,
-            onConfirm
-        );
+    message,
 
-        return;
+    onConfirm
 
-    }
+){
 
-    alert(`${title}\n\n${message}`);
+    showPopup(
 
-    onConfirm?.();
+        title,
+
+        message,
+
+        onConfirm
+
+    );
 
 }
 
@@ -92,7 +97,7 @@ function showMessage(
    VALIDATION
 ========================================= */
 
-function normalizeHandle(handle: string): string {
+function normalizeHandle(handle){
 
     return handle
         .trim()
@@ -100,7 +105,7 @@ function normalizeHandle(handle: string): string {
 
 }
 
-function isValidHandle(handle: string): boolean {
+function isValidHandle(handle){
 
     /*
     Allows:
@@ -113,53 +118,71 @@ function isValidHandle(handle: string): boolean {
     Length: 3–30 characters
     */
 
-    return /^[a-zA-Z0-9_.-]{3,30}$/.test(handle);
+    return /^[a-zA-Z0-9_.-]{3,30}$/.test(
+        handle
+    );
 
 }
 
-function isValidUsername(username: string): boolean {
+function isValidUsername(username){
 
-    return username.length >= 2 &&
-           username.length <= 32;
+    return (
+        username.length >= 2 &&
+        username.length <= 32
+    );
 
 }
 
-function getFirebaseMessage(error: unknown): string {
+/* =========================================
+   FIREBASE ERROR MESSAGES
+========================================= */
 
-    if (!(error instanceof FirebaseError)) {
+function getFirebaseMessage(error){
 
-        return "An unexpected error occurred while creating your account.";
-
-    }
-
-    switch (error.code) {
+    switch(error?.code){
 
         case "auth/email-already-in-use":
+
             return "An account already exists with that email.";
 
         case "auth/invalid-email":
+
             return "Please enter a valid email address.";
 
         case "auth/weak-password":
+
             return "Your password is too weak. Use at least six characters.";
 
         case "auth/operation-not-allowed":
+
             return "Email and password signup is not currently enabled.";
 
         case "auth/network-request-failed":
+
             return "A network error occurred. Check your connection and try again.";
 
         case "auth/popup-blocked":
+
             return "Your browser blocked the signup popup. Allow popups and try again.";
 
         case "auth/popup-closed-by-user":
+
             return "The signup window was closed before signup finished.";
 
         case "auth/account-exists-with-different-credential":
-            return "That email is already connected to another login provider.";
+
+            return "A ZombieOS account already exists with this email. Sign in using your existing method, then link this provider from your account settings.";
+
+        case "auth/unauthorized-domain":
+
+            return "This domain is not authorized to use Firebase Authentication.";
 
         default:
-            return error.message || "Account creation failed.";
+
+            return (
+                error?.message ||
+                "An unexpected error occurred while creating your account."
+            );
 
     }
 
@@ -169,10 +192,10 @@ function getFirebaseMessage(error: unknown): string {
    REDIRECT
 ========================================= */
 
-function goToDashboard(): void {
+function goToDashboard(){
 
     window.location.href =
-        "https://dashboard.zombieos.com/";
+    "https://dashboard.zombieos.com/";
 
 }
 
@@ -181,22 +204,32 @@ function goToDashboard(): void {
 ========================================= */
 
 onAuthStateChanged(
-    auth,
-    (user) => {
 
-        if (!user || signupInProgress) {
+    auth,
+
+    (user)=>{
+
+        if(
+            !user ||
+            signupInProgress
+        ){
 
             return;
 
         }
 
         showMessage(
+
             "Already Signed In",
+
             "You are already signed into a ZombieOS account. Log out before creating another account.",
+
             goToDashboard
+
         );
 
     }
+
 );
 
 /* =========================================
@@ -204,38 +237,53 @@ onAuthStateChanged(
 ========================================= */
 
 const signupForm =
-    document.getElementById("signup-form");
+document.getElementById(
+    "signup-form"
+);
 
-if (signupForm instanceof HTMLFormElement) {
+if(signupForm instanceof HTMLFormElement){
 
     signupForm.addEventListener(
+
         "submit",
-        async (event: SubmitEvent) => {
+
+        async(event)=>{
 
             event.preventDefault();
 
             const usernameInput =
-                getInput("username");
+            getInput(
+                "username"
+            );
 
             const handleInput =
-                getInput("handle");
+            getInput(
+                "handle"
+            );
 
             const emailInput =
-                getInput("email");
+            getInput(
+                "email"
+            );
 
             const passwordInput =
-                getInput("password");
+            getInput(
+                "password"
+            );
 
-            if (
+            if(
                 !usernameInput ||
                 !handleInput ||
                 !emailInput ||
                 !passwordInput
-            ) {
+            ){
 
                 showMessage(
+
                     "Signup Error",
+
                     "One or more required signup fields could not be found."
+
                 );
 
                 return;
@@ -243,90 +291,116 @@ if (signupForm instanceof HTMLFormElement) {
             }
 
             const username =
-                usernameInput.value.trim();
+            usernameInput.value.trim();
 
             const handle =
-                normalizeHandle(
-                    handleInput.value
-                );
+            normalizeHandle(
+                handleInput.value
+            );
 
             const email =
-                emailInput.value.trim();
+            emailInput.value.trim();
 
             const password =
-                passwordInput.value;
+            passwordInput.value;
 
-            if (
+            if(
                 !username ||
                 !handle ||
                 !email ||
                 !password
-            ) {
+            ){
 
                 showMessage(
+
                     "Missing Information",
+
                     "Please fill out every required field."
+
                 );
 
                 return;
 
             }
 
-            if (!isValidUsername(username)) {
+            if(!isValidUsername(username)){
 
                 showMessage(
+
                     "Invalid Username",
+
                     "Your username must contain between 2 and 32 characters."
+
                 );
 
                 return;
 
             }
 
-            if (!isValidHandle(handle)) {
+            if(!isValidHandle(handle)){
 
                 showMessage(
+
                     "Invalid Handle",
+
                     "Handles must contain 3–30 letters, numbers, periods, underscores, or dashes."
+
                 );
 
                 return;
 
             }
 
-            signupInProgress = true;
+            signupInProgress =
+            true;
 
-            try {
+            try{
 
                 const credential =
-                    await createUserWithEmailAndPassword(
-                        auth,
-                        email,
-                        password
-                    );
+                await createUserWithEmailAndPassword(
+
+                    auth,
+
+                    email,
+
+                    password
+
+                );
 
                 const user =
-                    credential.user;
+                credential.user;
 
                 await updateProfile(
+
                     user,
+
                     {
-                        displayName: username
+                        displayName:
+                        username
                     }
+
                 );
 
                 await createUserDocument(
+
                     user.uid,
+
                     username,
+
                     email,
+
                     handle
+
                 );
 
                 goToDashboard();
 
-            } catch (error: unknown) {
+            }
 
-                signupInProgress = false;
+            catch(error){
+
+                signupInProgress =
+                false;
 
                 console.error(
                     "Email signup failed:",
@@ -334,13 +408,17 @@ if (signupForm instanceof HTMLFormElement) {
                 );
 
                 showMessage(
+
                     "Signup Failed",
+
                     getFirebaseMessage(error)
+
                 );
 
             }
 
         }
+
     );
 
 }
@@ -350,30 +428,43 @@ if (signupForm instanceof HTMLFormElement) {
 ========================================= */
 
 async function handleProviderSignup(
-    providerName: string,
-    signupFunction: () => Promise<unknown>
-): Promise<void> {
 
-    signupInProgress = true;
+    providerName,
 
-    try {
+    signupFunction
+
+){
+
+    signupInProgress =
+    true;
+
+    try{
 
         await signupFunction();
 
         goToDashboard();
 
-    } catch (error: unknown) {
+    }
 
-        signupInProgress = false;
+    catch(error){
+
+        signupInProgress =
+        false;
 
         console.error(
+
             `${providerName} signup failed:`,
+
             error
+
         );
 
         showMessage(
+
             `${providerName} Signup Failed`,
+
             getFirebaseMessage(error)
+
         );
 
     }
@@ -385,14 +476,26 @@ async function handleProviderSignup(
 ========================================= */
 
 const googleButton =
-    getButton("google-signup");
+getButton(
+    "google-signup"
+);
 
 googleButton?.addEventListener(
+
     "click",
-    () => handleProviderSignup(
-        "Google",
-        signUpWithGoogle
-    )
+
+    ()=>{
+
+        handleProviderSignup(
+
+            "Google",
+
+            signUpWithGoogle
+
+        );
+
+    }
+
 );
 
 /* =========================================
@@ -400,14 +503,26 @@ googleButton?.addEventListener(
 ========================================= */
 
 const githubButton =
-    getButton("github-signup");
+getButton(
+    "github-signup"
+);
 
 githubButton?.addEventListener(
+
     "click",
-    () => handleProviderSignup(
-        "GitHub",
-        signUpWithGitHub
-    )
+
+    ()=>{
+
+        handleProviderSignup(
+
+            "GitHub",
+
+            signUpWithGitHub
+
+        );
+
+    }
+
 );
 
 /* =========================================
@@ -415,58 +530,98 @@ githubButton?.addEventListener(
 ========================================= */
 
 const microsoftButton =
-    getButton("microsoft-signup");
+getButton(
+    "microsoft-signup"
+);
 
 microsoftButton?.addEventListener(
+
     "click",
-    () => handleProviderSignup(
-        "Microsoft",
-        signUpWithMicrosoft
-    )
+
+    ()=>{
+
+        handleProviderSignup(
+
+            "Microsoft",
+
+            signUpWithMicrosoft
+
+        );
+
+    }
+
 );
 
 /* =========================================
-   DISCORD — COMING LATER
+   DISCORD (COMING SOON)
 ========================================= */
 
 /*
 
 import {
+
     signUpWithDiscord
-} from "./providers";
+
+} from "./providers.js";
 
 const discordButton =
-    getButton("discord-signup");
+getButton(
+    "discord-signup"
+);
 
 discordButton?.addEventListener(
+
     "click",
-    () => handleProviderSignup(
-        "Discord",
-        signUpWithDiscord
-    )
+
+    ()=>{
+
+        handleProviderSignup(
+
+            "Discord",
+
+            signUpWithDiscord
+
+        );
+
+    }
+
 );
 
 */
 
 /* =========================================
-   APPLE — COMING LATER
+   APPLE (COMING SOON)
 ========================================= */
 
 /*
 
 import {
+
     signUpWithApple
-} from "./providers";
+
+} from "./providers.js";
 
 const appleButton =
-    getButton("apple-signup");
+getButton(
+    "apple-signup"
+);
 
 appleButton?.addEventListener(
+
     "click",
-    () => handleProviderSignup(
-        "Apple",
-        signUpWithApple
-    )
+
+    ()=>{
+
+        handleProviderSignup(
+
+            "Apple",
+
+            signUpWithApple
+
+        );
+
+    }
+
 );
 
 */
